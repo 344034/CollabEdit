@@ -25,6 +25,7 @@ import android.widget.Toast;
  * 
  * Sue Smith
  * August 2013
+ * Edits by: Sandeep March 2015
  *
  */
 public class MainActivity extends Activity implements OnClickListener {
