@@ -5,7 +5,8 @@ import java.io.InputStreamReader;
 
 import org.glassfish.tyrus.server.Server;
 
-import server.endpoints.CollaborativeServerEndPoint;
+import server.endpoints.CoordinaterClientUpdateEndPoint;
+import server.endpoints.CoordinaterServerUpdateEndPoint;
 
 /**
  * Server to balance the load and assign servers to clients
@@ -20,10 +21,13 @@ public class CoordinatorServer {
 
 	public static void runServer() {
 		// TODO: pass the hostname to the program
-		Server server = new Server("localhost", 8025, "/websockets",
-				CollaborativeServerEndPoint.class);
+		Server clientUpdateCoordinator = new Server("localhost", 8030,
+				"/websockets", CoordinaterClientUpdateEndPoint.class);
+		Server serverUpdateCoordinator = new Server("localhost", 8031,
+				"/websockets", CoordinaterServerUpdateEndPoint.class);
 		try {
-			server.start();
+			clientUpdateCoordinator.start();
+			serverUpdateCoordinator.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					System.in));
 			System.out.print("Please press a key to stop the server.");
@@ -31,7 +35,8 @@ public class CoordinatorServer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			server.stop();
+			clientUpdateCoordinator.stop();
+			serverUpdateCoordinator.stop();
 		}
 	}
 }

@@ -17,8 +17,8 @@ import server.manager.CoordinatorServerManager;
 import util.Util;
 import data.Message;
 
-@ServerEndpoint(value = "/coordinatorserver/{app}/{channel}/{deviceID}, encoders = MessageEncoder.class, decoders = MessageDecoder.class)")
-public class CoordinaterServerEndPoint {
+@ServerEndpoint(value = "/coordinatorclientupdate/{app}/{channel}/{deviceID}, encoders = MessageEncoder.class, decoders = MessageDecoder.class)")
+public class CoordinaterClientUpdateEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	CoordinatorServerManager coordinatorManager = new CoordinatorServerManager();
 
@@ -45,7 +45,7 @@ public class CoordinaterServerEndPoint {
 		// Receive a JSON message and check for the command.
 		String app = (String) session.getUserProperties().get("app");
 		String channel = (String) session.getUserProperties().get("channel");
-		Message response = coordinatorManager.performOperation(message, app,
+		Message response = coordinatorManager.performClientOperation(message, app,
 				channel);
 		if (session.isOpen())
 			try {
