@@ -58,7 +58,7 @@ public class WebClientEndpoint {
 		ClientManager client = ClientManager.createClient();
 		try {
 			client.connectToServer(WebClientEndpoint.class, new URI(
-					"ws://localhost:8025/websockets/collabserver"));
+					"ws://localhost:8025/websockets/collabserver/paint/abc"));
 			latch.await();
 
 		} catch (DeploymentException | URISyntaxException

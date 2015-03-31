@@ -1,4 +1,4 @@
-package server;
+package server.endpoints;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -10,8 +10,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/collabserver")
-public class ServerEndPoint {
+@ServerEndpoint(value = "/server")
+public class CoordinaterServerEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	@OnOpen
