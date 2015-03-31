@@ -10,7 +10,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/collabserver")
+@ServerEndpoint(value = "/resolverserver")
 public class ResolverServerEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -31,6 +31,7 @@ public class ResolverServerEndPoint {
 			}
 			break;
 		}
+		
 		return message;
 	}
 
