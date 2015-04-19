@@ -1,10 +1,7 @@
 package server.manager;
 
 import java.util.HashMap;
-
-//import javax.websocket.Session;
 import data.Message;
-
 
 /**
  * Manages the resolving conflicts between the messages from different client.
@@ -14,8 +11,11 @@ import data.Message;
  */
 public class ResolverManager {
 
-	private HashMap<String, HashMap<String, Integer>> outerMap = new HashMap<String, HashMap<String, Integer>>();
-	private HashMap<String, Integer> innerMap = new HashMap<String, Integer>();
+	private HashMap<String, HashMap<String, Integer>> counterMap;
+
+	public ResolverManager() {
+		counterMap = new HashMap<String, HashMap<String, Integer>>();
+	}
 
 	/**
 	 * Method which gives the update sequence number for any application
@@ -30,17 +30,20 @@ public class ResolverManager {
 		Message replyMsg = new Message();
 		switch (message.getOperation()) {
 		case "GetUpdateNum":
-			int val = 0;
-			if (outerMap.containsKey(app)) {
-				HashMap<String, Integer> map = outerMap.get("app");
-				val = map.get(channel);
-				outerMap.remove(app);
+			// TODO : Can this be removed??.
+			if (!counterMap.containsKey(app)) {
+				counterMap.put(app, new HashMap<String, Integer>());
+			}
+			if (!counterMap.get(app).containsKey(channel)) {
+				counterMap.get(app).put(channel, 0);
 			}
 
-			int count = val + 1;
-			replyMsg.setUpdate(Integer.toString(count));
-			innerMap.put(channel, count);
-			outerMap.put(app, innerMap);
+			int newTimestamp = counterMap.get(app).get(channel) + 1;
+			replyMsg.setUpdate(Integer.toString(newTimestamp));
+			counterMap.get(app).put(channel, newTimestamp);
+			break;
+		default:
+			System.out.println("Operation not supported");
 			break;
 		}
 		return replyMsg;
