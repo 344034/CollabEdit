@@ -28,14 +28,22 @@ public class MessageDecoder implements Decoder.Text<Message> {
 	}
 
 	@Override
-	public Message decode(final String textMessage) throws DecodeException {
+	public Message decode(final String textMessage) {
+		System.out.println("Decoding..............");
 		Message message = new Message();
-		JsonObject obj = Json.createReader(new StringReader(textMessage))
-				.readObject();
-		message.setSender(obj.getString("sender"));
-		message.setReceived(new Date());
-		message.setOperation(obj.getString("operation"));
-		message.setUpdate(obj.getString("update"));
+		System.out.println("Decoding : txMsg - " + textMessage);
+		try {
+			JsonObject obj = Json.createReader(new StringReader(textMessage))
+					.readObject();
+
+			message.setSender(obj.getString("sender"));
+			message.setReceived(obj.getString("received"));
+			message.setOperation(obj.getString("operation"));
+			message.setUpdate(obj.getString("update"));
+			System.out.println("Decoded msg : " + message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return message;
 	}
 

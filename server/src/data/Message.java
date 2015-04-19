@@ -10,7 +10,10 @@ import java.util.Date;
  */
 public class Message {
 	private String sender;
-	private Date received;
+	/**
+	 * Convert Date to string and pass it to decode
+	 */
+	private String received;
 	private String operation;
 	private String update;
 
@@ -18,7 +21,8 @@ public class Message {
 
 	}
 
-	public Message(String sender, Date received, String operation, String update) {
+	public Message(String sender, String received, String operation,
+			String update) {
 		super();
 		this.sender = sender;
 		this.received = received;
@@ -34,11 +38,11 @@ public class Message {
 		this.sender = sender;
 	}
 
-	public Date getReceived() {
+	public String getReceived() {
 		return received;
 	}
 
-	public void setReceived(Date received) {
+	public void setReceived(String received) {
 		this.received = received;
 	}
 
@@ -56,6 +60,11 @@ public class Message {
 
 	public void setUpdate(String update) {
 		this.update = update;
+	}
+
+	public String toString() {
+		return "[sender:" + sender + ",received:" + received + ",operation:"
+				+ operation + ",update:" + update + "]";
 	}
 
 }

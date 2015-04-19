@@ -3,8 +3,10 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 
@@ -18,6 +20,7 @@ import javax.websocket.Session;
 
 import org.glassfish.tyrus.client.ClientManager;
 
+
 @ClientEndpoint
 public class WebClientEndpoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -28,6 +31,7 @@ public class WebClientEndpoint {
 		logger.info("Connected ... " + session.getId());
 		try {
 			session.getBasicRemote().sendText("start");
+
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -59,6 +63,23 @@ public class WebClientEndpoint {
 		try {
 			client.connectToServer(WebClientEndpoint.class, new URI(
 					"ws://localhost:8025/websockets/collabserver/paint/abc"));
+
+			// TODO : Send the JSON to the server and send back.
+			// Create the JSON
+			// Decide the JSON format.
+
+//			JSONObject obj = new JSONObject();
+//
+//			obj.put("sender", "client");
+//			obj.put("received", new Date());
+//			obj.put("operation", "test");
+//			obj.put("update", "message");
+//
+//			StringWriter out = new StringWriter();
+//			// obj.writeJSONString(out);
+//
+//			String jsonText = out.toString();
+
 			latch.await();
 
 		} catch (DeploymentException | URISyntaxException

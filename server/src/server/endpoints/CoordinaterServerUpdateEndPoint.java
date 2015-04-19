@@ -10,11 +10,9 @@ import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import server.manager.CoordinatorServerManager;
-import util.Util;
 import data.Message;
 
 @ServerEndpoint(value = "/coordinatorserverupdate, encoders = MessageEncoder.class, decoders = MessageDecoder.class)")
@@ -31,10 +29,13 @@ public class CoordinaterServerUpdateEndPoint {
 	@OnMessage
 	public void onMessage(final Session session, Message message) {
 		// Receive a JSON message and check for the command.
-		Message response = coordinatorManager.performServerOperation(message);
+		// Message response =
+		// coordinatorManager.performServerOperation(message);
 		if (session.isOpen())
 			try {
-				session.getBasicRemote().sendObject(response);
+				// session.getBasicRemote().sendObject(response);
+				System.out.println(message);
+				session.getBasicRemote().sendObject(message);
 			} catch (IOException | EncodeException e) {
 				logger.log(Level.WARNING, "onMessage failed", e);
 			}

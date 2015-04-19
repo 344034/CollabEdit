@@ -7,5 +7,5 @@ package server.database;
  *
  */
 public class DocumentStore {
-
+//TODO : Maintain a hashmap and write to a file.
 }

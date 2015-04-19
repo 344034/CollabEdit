@@ -16,8 +16,10 @@ import javax.websocket.server.ServerEndpoint;
 import server.manager.CoordinatorServerManager;
 import util.Util;
 import data.Message;
+import data.MessageEncoder;
+import data.MessageDecoder;
 
-@ServerEndpoint(value = "/coordinatorclientupdate/{app}/{channel}/{deviceID}, encoders = MessageEncoder.class, decoders = MessageDecoder.class)")
+@ServerEndpoint(value = "/coordinatorclientupdate/{app}/{channel}/{deviceID}", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class CoordinaterClientUpdateEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	CoordinatorServerManager coordinatorManager = new CoordinatorServerManager();
@@ -42,15 +44,20 @@ public class CoordinaterClientUpdateEndPoint {
 
 	@OnMessage
 	public void onMessage(final Session session, Message message) {
+
+		System.out.println("Received message in server: ");
 		// Receive a JSON message and check for the command.
 		String app = (String) session.getUserProperties().get("app");
 		String channel = (String) session.getUserProperties().get("channel");
-		Message response = coordinatorManager.performClientOperation(message, app,
-				channel);
+		// Message response = coordinatorManager.performClientOperation(message,
+		// app,
+		// channel);
+		System.out.println("Server received Message : " + message);
 		if (session.isOpen())
 			try {
-				session.getBasicRemote().sendObject(response);
-			} catch (IOException | EncodeException e) {
+				// session.getBasicRemote().sendObject(response);
+				session.getBasicRemote().sendText(message.toString());
+			} catch (IOException e) {
 				logger.log(Level.WARNING, "onMessage failed", e);
 			}
 	}
