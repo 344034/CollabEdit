@@ -15,6 +15,7 @@ import server.endpoints.CoordinaterClientUpdateEndPoint;
  */
 public class CoordinatorServer {
 	public static void main(String[] args) {
+
 		runServer();
 	}
 
@@ -22,11 +23,11 @@ public class CoordinatorServer {
 		// TODO: pass the hostname to the program
 		Server clientUpdateCoordinator = new Server("localhost", 8030,
 				"/websockets", CoordinaterClientUpdateEndPoint.class);
-//		Server serverUpdateCoordinator = new Server("localhost", 8031,
-//				"/websockets", CoordinaterServerUpdateEndPoint.class);
+		// Server serverUpdateCoordinator = new Server("localhost", 8031,
+		// "/websockets", CoordinaterServerUpdateEndPoint.class);
 		try {
 			clientUpdateCoordinator.start();
-//			serverUpdateCoordinator.start();
+			// serverUpdateCoordinator.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					System.in));
 			System.out.print("Please press a key to stop the server.");
@@ -35,7 +36,7 @@ public class CoordinatorServer {
 			e.printStackTrace();
 		} finally {
 			clientUpdateCoordinator.stop();
-//			serverUpdateCoordinator.stop();
+			// serverUpdateCoordinator.stop();
 		}
 	}
 }

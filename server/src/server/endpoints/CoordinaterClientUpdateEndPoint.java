@@ -53,13 +53,14 @@ public class CoordinaterClientUpdateEndPoint {
 		// app,
 		// channel);
 		System.out.println("Server received Message : " + message);
-		if (session.isOpen())
-			try {
-				// session.getBasicRemote().sendObject(response);
-				session.getBasicRemote().sendText(message.toString());
-			} catch (IOException e) {
-				logger.log(Level.WARNING, "onMessage failed", e);
-			}
+
+		// TODO : Process the message and send the reply back.
+		try {
+			// session.getBasicRemote().sendObject(response);
+			session.getBasicRemote().sendText(message.toString());
+		} catch (IOException e) {
+			logger.log(Level.WARNING, "onMessage failed", e);
+		}
 	}
 
 	@OnClose
