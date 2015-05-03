@@ -15,6 +15,7 @@ public class ResolverManager {
 
 	public ResolverManager() {
 		counterMap = new HashMap<String, HashMap<String, Integer>>();
+		// Start the new endpoint
 	}
 
 	/**
@@ -26,27 +27,19 @@ public class ResolverManager {
 	 * @param channel
 	 * @return
 	 */
-	public Message performOperation(Message message, String app, String channel) {
-		Message replyMsg = new Message();
-		switch (message.getOperation()) {
-		case "GetUpdateNum":
-			// TODO : Can this be removed??.
-			if (!counterMap.containsKey(app)) {
-				counterMap.put(app, new HashMap<String, Integer>());
-			}
-			if (!counterMap.get(app).containsKey(channel)) {
-				counterMap.get(app).put(channel, 0);
-			}
-
-			int newTimestamp = counterMap.get(app).get(channel) + 1;
-			replyMsg.setUpdate(Integer.toString(newTimestamp));
-			counterMap.get(app).put(channel, newTimestamp);
-			break;
-		default:
-			System.out.println("Operation not supported");
-			break;
+	public void getMessagePriorityNumber(Message message) {
+		String app = message.getApp();
+		String channel = message.getChannel();
+		if (!counterMap.containsKey(app)) {
+			counterMap.put(app, new HashMap<String, Integer>());
 		}
-		return replyMsg;
+		if (!counterMap.get(app).containsKey(channel)) {
+			counterMap.get(app).put(channel, 0);
+		}
+
+		int newTimestamp = counterMap.get(app).get(channel) + 1;
+		message.setPriority(Integer.toString(newTimestamp));
+		counterMap.get(app).put(channel, newTimestamp);
 	}
 
 }

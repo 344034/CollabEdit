@@ -1,4 +1,5 @@
 package server.endpoints;
+
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ public class FallBackCoordinatorServerEndPoint {
 	}
 
 	@OnMessage
-	public String onMessage(String message, Session session) {
+	public void onMessage(String message, Session session) {
 		switch (message) {
 		case "quit":
 			try {
@@ -31,7 +32,9 @@ public class FallBackCoordinatorServerEndPoint {
 			}
 			break;
 		}
-		return message;
+
+		// TODO : Receive the message
+		// Update the database or backup storage
 	}
 
 	@OnClose

@@ -1,13 +1,9 @@
 package data;
 
-import java.io.StringReader;
-import java.util.Date;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
+
+import org.json.JSONObject;
 
 /**
  * Decode the JSON to message Object
@@ -33,13 +29,12 @@ public class MessageDecoder implements Decoder.Text<Message> {
 		Message message = new Message();
 		System.out.println("Decoding : txMsg - " + textMessage);
 		try {
-			JsonObject obj = Json.createReader(new StringReader(textMessage))
-					.readObject();
+			JSONObject obj = new JSONObject(textMessage);
+			message.setType(obj.getString("type"));
+			message.setServerURL(obj.getString("serverurl"));
+			message.setPriority(obj.getString("priority"));
+			message.setMessage(obj.getString("message"));
 
-			message.setSender(obj.getString("sender"));
-			message.setReceived(obj.getString("received"));
-			message.setOperation(obj.getString("operation"));
-			message.setUpdate(obj.getString("update"));
 			System.out.println("Decoded msg : " + message);
 		} catch (Exception e) {
 			e.printStackTrace();

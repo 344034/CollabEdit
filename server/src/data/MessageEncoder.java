@@ -1,9 +1,10 @@
 package data;
 
-import javax.json.Json;
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
+
+import org.json.JSONObject;
 
 /**
  * Encode the message object to JSON
@@ -23,10 +24,11 @@ public class MessageEncoder implements Encoder.Text<Message> {
 
 	@Override
 	public String encode(Message message) throws EncodeException {
-		return Json.createObjectBuilder().add("sender", message.getSender())
-				.add("received", message.getReceived().toString())
-				.add("operation", message.getOperation())
-				.add("update", message.getOperation()).build().toString();
+		JSONObject obj = new JSONObject();
+		obj.put("type", message.getType());
+		obj.put("serverurl", message.getServerURL());
+		obj.put("priority", message.getPriority());
+		obj.put("message", message.getMessage());
+		return obj.toString();
 	}
-
 }

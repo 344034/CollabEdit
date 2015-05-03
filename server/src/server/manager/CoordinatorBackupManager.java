@@ -30,11 +30,11 @@ public class CoordinatorBackupManager {
 	public Message performClientOperation(Message message, String app,
 			String channel) {
 		Message replyMsg = new Message();
-		switch (message.getOperation()) {
+		switch (message.getType()) {
 		case "GetServer":
 			// Find which server to be returned.
 			String server = getCollaborativeServer(app, channel);
-			replyMsg.setUpdate(server);
+			replyMsg.setServerURL(server);
 			break;
 		}
 		return replyMsg;
@@ -73,10 +73,10 @@ public class CoordinatorBackupManager {
 	 */
 	public Message performServerOperation(Message message) {
 		Message replyMsg = new Message();
-		switch (message.getOperation()) {
+		switch (message.getType()) {
 		case "NewServer":
-			registerNewCollabServer(message.getUpdate());
-			replyMsg.setUpdate("Added New server");
+			registerNewCollabServer(message.getServerURL());
+			replyMsg.setMessage("Added New server");
 			break;
 		}
 		return replyMsg;

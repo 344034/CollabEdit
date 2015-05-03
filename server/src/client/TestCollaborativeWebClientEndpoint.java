@@ -18,7 +18,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
 import org.glassfish.tyrus.client.ClientManager;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import data.Message;
 
@@ -34,7 +34,7 @@ public class TestCollaborativeWebClientEndpoint {
 		s.start();
 		try {
 			// session.getBasicRemote().sendText("start");
-			Message startMessage = new Message("client", "received",
+			Message startMessage = new Message("", "", "client", "received",
 					"test-coordination", "test-start");
 			String startText = jsonString(startMessage);
 			System.out.println("Sending text while opening connection.. :"
@@ -65,19 +65,12 @@ public class TestCollaborativeWebClientEndpoint {
 	public String jsonString(Message msg) {
 		JSONObject obj = new JSONObject();
 
-		obj.put("sender", msg.getOperation());
-		obj.put("received", msg.getReceived());
-		obj.put("operation", msg.getSender());
-		obj.put("update", msg.getUpdate());
+		obj.put("type", msg.getType());
+		obj.put("serverurl", msg.getServerURL());
+		obj.put("priority", msg.getPriority());
+		obj.put("message", msg.getMessage());
 
 		StringWriter out = new StringWriter();
-		try {
-			obj.writeJSONString(out);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		String jsonText = out.toString();
 		// System.out.print(jsonText);
 		// StringWriter out = new StringWriter();
@@ -127,7 +120,7 @@ public class TestCollaborativeWebClientEndpoint {
 					String userInput = bufferRead.readLine();
 					System.out.println("Created message..sending msg:");
 
-					Message newMessage = new Message("client", "date",
+					Message newMessage = new Message("", "", "client", "date",
 							"test-coordination", userInput);
 					String msgTxt = jsonString(newMessage);
 

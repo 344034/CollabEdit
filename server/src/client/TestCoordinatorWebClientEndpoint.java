@@ -3,7 +3,6 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.CountDownLatch;
@@ -18,7 +17,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
 import org.glassfish.tyrus.client.ClientManager;
-import org.json.simple.JSONObject;
 
 import data.Message;
 
@@ -32,7 +30,7 @@ public class TestCoordinatorWebClientEndpoint {
 		logger.info("Connected ... " + session.getId());
 		try {
 			// session.getBasicRemote().sendText("start");
-			Message startMessage = new Message("client", "received",
+			Message startMessage = new Message("", "", "client", "received",
 					"test-coordination", "test-start");
 			String startText = jsonString(startMessage);
 			System.out.println("Sending text while opening connection.. :"
@@ -60,7 +58,7 @@ public class TestCoordinatorWebClientEndpoint {
 			// obj.put("operation", "test");
 			// obj.put("update", userInput);
 
-			Message newMessage = new Message("client", "date",
+			Message newMessage = new Message("", "", "client", "date",
 					"test-coordination", userInput);
 			String msgTxt = jsonString(newMessage);
 			return msgTxt;
@@ -76,22 +74,22 @@ public class TestCoordinatorWebClientEndpoint {
 	}
 
 	public String jsonString(Message msg) {
-		JSONObject obj = new JSONObject();
+//		JSONObject obj = new JSONObject();
+//
+//		obj.put("type", msg.getType());
+//		obj.put("serverurl", msg.getServerURL());
+//		obj.put("priority", msg.getPriority());
+//		obj.put("message", msg.getMessage());
+//
+//		StringWriter out = new StringWriter();
+//		try {
+//			obj.writeJSONString(out);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-		obj.put("sender", msg.getOperation());
-		obj.put("received", msg.getReceived());
-		obj.put("operation", msg.getSender());
-		obj.put("update", msg.getUpdate());
-
-		StringWriter out = new StringWriter();
-		try {
-			obj.writeJSONString(out);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		String jsonText = out.toString();
+		String jsonText = "";//out.toString();
 		// System.out.print(jsonText);
 		// StringWriter out = new StringWriter();
 		// obj.writeJSONString(out);

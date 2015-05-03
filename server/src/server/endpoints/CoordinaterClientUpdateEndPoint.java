@@ -55,6 +55,10 @@ public class CoordinaterClientUpdateEndPoint {
 		System.out.println("Server received Message : " + message);
 
 		// TODO : Process the message and send the reply back.
+		// Find the server which has less load and 
+		// update the coordinator server backup.
+		//send back the server details.
+		
 		try {
 			// session.getBasicRemote().sendObject(response);
 			session.getBasicRemote().sendText(message.toString());

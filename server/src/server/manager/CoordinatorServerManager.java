@@ -17,10 +17,12 @@ import data.Message;
 public class CoordinatorServerManager {
 	private Map<String, Session> appDeviceSessionMap;
 	private Map<String, ServerDetails> serverDetailsMap;
-
+	private ResolverManager resolverManager;
+	
 	public CoordinatorServerManager() {
 		appDeviceSessionMap = new HashMap<>();
 		serverDetailsMap = new HashMap<>();
+		resolverManager = new ResolverManager();
 	}
 
 	public synchronized void addAppSessionToMap(String sessionKey,
@@ -36,11 +38,11 @@ public class CoordinatorServerManager {
 	public Message performClientOperation(Message message, String app,
 			String channel) {
 		Message replyMsg = new Message();
-		switch (message.getOperation()) {
+		switch (message.getType()) {
 		case "GetServer":
 			// Find which server to be returned.
 			String server = getCollaborativeServer(app, channel);
-			replyMsg.setUpdate(server);
+			replyMsg.setServerURL(server);
 			break;
 		}
 		return replyMsg;
@@ -79,11 +81,14 @@ public class CoordinatorServerManager {
 	 */
 	public Message performServerOperation(Message message) {
 		Message replyMsg = new Message();
-		switch (message.getOperation()) {
+		switch (message.getType()) {
 		case "NewServer":
-			registerNewCollabServer(message.getUpdate());
-			replyMsg.setUpdate("Added New server");
+			registerNewCollabServer(message.getMessage());
+			replyMsg.setMessage("Added New server");
 			break;
+		// case "clientClosed":
+		// // Update server details.
+		// break;
 		}
 		return replyMsg;
 

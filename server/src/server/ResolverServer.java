@@ -20,7 +20,7 @@ public class ResolverServer {
 
 	public static void runServer() {
 		// TODO: pass the hostname to the program
-		Server server = new Server("localhost", 8025, "/websockets",
+		Server server = new Server("localhost", 8023, "/websockets",
 				ResolverServerEndPoint.class);
 		try {
 			server.start();

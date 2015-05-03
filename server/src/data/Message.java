@@ -1,7 +1,5 @@
 package data;
 
-import java.util.Date;
-
 /**
  * Message to communicate across servers and clients.
  * 
@@ -9,62 +7,78 @@ import java.util.Date;
  *
  */
 public class Message {
-	private String sender;
-	/**
-	 * Convert Date to string and pass it to decode
-	 */
-	private String received;
-	private String operation;
-	private String update;
+	private String app;
+	private String channel;
+	private String type;
+	private String serverURL;
+	private String priority;
+	private String message;
 
 	public Message() {
-
 	}
 
-	public Message(String sender, String received, String operation,
-			String update) {
+	public Message(String app, String channel, String type, String serverURL,
+			String priority, String message) {
 		super();
-		this.sender = sender;
-		this.received = received;
-		this.operation = operation;
-		this.update = update;
+		this.app = app;
+		this.channel = channel;
+		this.type = type;
+		this.serverURL = serverURL;
+		this.priority = priority;
+		this.message = message;
 	}
 
-	public String getSender() {
-		return sender;
+	public String getType() {
+		return type;
 	}
 
-	public void setSender(String sender) {
-		this.sender = sender;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getReceived() {
-		return received;
+	public String getServerURL() {
+		return serverURL;
 	}
 
-	public void setReceived(String received) {
-		this.received = received;
+	public void setServerURL(String serverURL) {
+		this.serverURL = serverURL;
 	}
 
-	public String getOperation() {
-		return operation;
+	public String getPriority() {
+		return priority;
 	}
 
-	public void setOperation(String operation) {
-		this.operation = operation;
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 
-	public String getUpdate() {
-		return update;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setUpdate(String update) {
-		this.update = update;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getApp() {
+		return app;
+	}
+
+	public void setApp(String app) {
+		this.app = app;
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
 	}
 
 	public String toString() {
-		return "[sender:" + sender + ",received:" + received + ",operation:"
-				+ operation + ",update:" + update + "]";
+		return "[ Message : type :" + type + " serverURL : " + serverURL
+				+ " priority : " + priority + " message : " + message + "]";
 	}
 
 }
