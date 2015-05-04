@@ -1,12 +1,14 @@
 package data;
 
+import java.io.Serializable;
+
 /**
  * Message to communicate across servers and clients.
  * 
  * @author thirunavukarasu
  *
  */
-public class Message {
+public class Message implements Serializable {
 	private String app;
 	private String channel;
 	private String type;
@@ -77,8 +79,9 @@ public class Message {
 	}
 
 	public String toString() {
-		return "[ Message : type :" + type + " serverURL : " + serverURL
-				+ " priority : " + priority + " message : " + message + "]";
+		return "[ Message : App :" + app + ", channel :" + channel + ", type :"
+				+ type + ",serverURL : " + serverURL + ",priority : "
+				+ priority + ",message : " + message + "]";
 	}
 
 }

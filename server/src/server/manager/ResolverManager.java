@@ -38,7 +38,9 @@ public class ResolverManager {
 		}
 
 		int newTimestamp = counterMap.get(app).get(channel) + 1;
+		System.out.println("Setting priority...");
 		message.setPriority(Integer.toString(newTimestamp));
+		System.out.println("In resolver m : " + message);
 		counterMap.get(app).put(channel, newTimestamp);
 	}
 

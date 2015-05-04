@@ -70,13 +70,13 @@ public class TestCollaborativeWebClientEndpoint {
 		obj.put("priority", msg.getPriority());
 		obj.put("message", msg.getMessage());
 
-		StringWriter out = new StringWriter();
-		String jsonText = out.toString();
+		// StringWriter out = new StringWriter();
+		// String jsonText = out.toString();
 		// System.out.print(jsonText);
 		// StringWriter out = new StringWriter();
 		// obj.writeJSONString(out);
 
-		return jsonText;
+		return obj.toString();
 	}
 
 	public static void main(String[] args) {

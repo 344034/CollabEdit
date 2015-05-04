@@ -38,7 +38,7 @@ public class CoordinaterClientUpdateEndPoint {
 		session.getUserProperties().put("deviceID", deviceID);
 		String key = Util.getAppSessionDeviceID(app, channel, deviceID);
 		coordinatorManager.addAppSessionToMap(key, session);
-
+		
 		logger.info("Connected ... " + session.getId());
 	}
 

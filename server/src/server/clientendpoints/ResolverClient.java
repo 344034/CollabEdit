@@ -9,6 +9,12 @@ import java.net.Socket;
 
 import data.Message;
 
+/**
+ * Client which connects to the resolver number to get the
+ * 
+ * @author thirunavukarasu
+ *
+ */
 public class ResolverClient {
 	Socket socket;
 	OutputStream rawOut;
@@ -17,6 +23,7 @@ public class ResolverClient {
 	ObjectInputStream in;
 
 	public ResolverClient() {
+		// Change it to respective server URL
 		String host = "localhost";
 		int port = 8020;
 		try {
@@ -35,8 +42,13 @@ public class ResolverClient {
 	public Message getResolverNumber(Message message) {
 		Message recMsg = null;
 		try {
+			// sent obj
+			System.out.println("Sending message to resolver server");
 			out.writeObject(message);
+			// waiting to receive object
+			System.out.println("Waiting from resolver server");
 			recMsg = (Message) in.readObject();
+			System.out.println("In resolver client received: " + recMsg);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,6 +56,6 @@ public class ResolverClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return message;
+		return recMsg;
 	}
 }

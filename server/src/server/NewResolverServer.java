@@ -58,9 +58,18 @@ public class NewResolverServer extends Thread {
 			ObjectOutputStream out = new ObjectOutputStream(ostream);
 			try {
 				while (true) {
+					System.out
+							.println("In resolver server : Waiting for message : ");
 					Message m = (Message) in.readObject();
 					resolverManager.getMessagePriorityNumber(m);
-					out.writeObject(Util.MessageToJSONString(m));
+					System.out
+							.println("In resolver server : sending the message with update num: "
+									+ m);
+					try {
+						out.writeObject(Util.MessageToJSONString(m));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
