@@ -47,19 +47,24 @@ public class CollaborativeServerEndPoint {
 		recMsg.setApp((String) session.getUserProperties().get("app"));
 		recMsg.setChannel((String) session.getUserProperties().get("channel"));
 		// Message msgWithUpdateNumber = recMsg;
-		
-		Message msgWithUpdateNumber = collaborativeManager
-				.getResolverNumber(recMsg,true);
+
+		Message msgWithUpdateNumber = collaborativeManager.getResolverNumber(
+				recMsg, true);
 
 		// Store and Multicast
+
 		// receive the timestamp counter.
 		// Store in the datastore.
 		// Multicast the message.
 		System.out.println("In collab server Received update number : "
 				+ msgWithUpdateNumber);
+		int i = 1;
 		for (Session s : session.getOpenSessions()) {
 			if (s.isOpen()) {
-				System.out.println("");
+				System.out.println(i + "UserProperty app : "
+						+ s.getUserProperties().get("app"));
+				System.out.println(i + "UserProperty channel : "
+						+ s.getUserProperties().get("channel"));
 				// Send message to the respective clients.
 				if (msgWithUpdateNumber.getApp().equals(
 						s.getUserProperties().get("app"))
@@ -77,6 +82,7 @@ public class CollaborativeServerEndPoint {
 				}
 
 			}
+			i++;
 		}
 		// return message;
 	}

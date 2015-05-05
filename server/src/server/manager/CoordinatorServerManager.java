@@ -18,7 +18,7 @@ public class CoordinatorServerManager {
 	private Map<String, Session> appDeviceSessionMap;
 	private Map<String, ServerDetails> serverDetailsMap;
 	private ResolverManager resolverManager;
-	
+
 	public CoordinatorServerManager() {
 		appDeviceSessionMap = new HashMap<>();
 		serverDetailsMap = new HashMap<>();
@@ -33,6 +33,17 @@ public class CoordinatorServerManager {
 	public synchronized Session getAppSessionToMap(String sessionKey,
 			Session session) {
 		return appDeviceSessionMap.get(sessionKey);
+	}
+
+	public Message performClientOperation(String app, String channel) {
+		Message replyMsg = new Message();
+		String url = "52.10.240.141";
+		String collabServerURL = "ws://" + url
+				+ ":8025/websockets/collabserver/" + app + "/"
+				+ channel;
+		replyMsg.setServerURL(collabServerURL);
+		replyMsg.setType("URL");
+		return replyMsg;
 	}
 
 	public Message performClientOperation(Message message, String app,

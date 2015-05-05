@@ -17,6 +17,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 
 import org.glassfish.tyrus.client.ClientManager;
+import org.json.JSONObject;
 
 import data.Message;
 
@@ -28,18 +29,6 @@ public class TestCoordinatorWebClientEndpoint {
 	@OnOpen
 	public void onOpen(Session session) {
 		logger.info("Connected ... " + session.getId());
-		try {
-			// session.getBasicRemote().sendText("start");
-			Message startMessage = new Message("", "", "client", "received",
-					"test-coordination", "test-start");
-			String startText = jsonString(startMessage);
-			System.out.println("Sending text while opening connection.. :"
-					+ startText);
-			session.getBasicRemote().sendText(startText);
-
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@OnMessage
@@ -74,27 +63,14 @@ public class TestCoordinatorWebClientEndpoint {
 	}
 
 	public String jsonString(Message msg) {
-//		JSONObject obj = new JSONObject();
-//
-//		obj.put("type", msg.getType());
-//		obj.put("serverurl", msg.getServerURL());
-//		obj.put("priority", msg.getPriority());
-//		obj.put("message", msg.getMessage());
-//
-//		StringWriter out = new StringWriter();
-//		try {
-//			obj.writeJSONString(out);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		JSONObject obj = new JSONObject();
 
-		String jsonText = "";//out.toString();
-		// System.out.print(jsonText);
-		// StringWriter out = new StringWriter();
-		// obj.writeJSONString(out);
+		obj.put("type", msg.getType());
+		obj.put("serverurl", msg.getServerURL());
+		obj.put("priority", msg.getPriority());
+		obj.put("message", msg.getMessage());
 
-		return jsonText;
+		return obj.toString();
 	}
 
 	public static void main(String[] args) {

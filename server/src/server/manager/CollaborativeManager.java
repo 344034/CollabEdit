@@ -11,13 +11,13 @@ public class CollaborativeManager {
 
 	ResolverClient resolverClient;
 	private HashMap<String, HashMap<String, Integer>> counterMap;
-
+	private DocumentStoreManager documentStoreManager;
 	public CollaborativeManager() {
 		// TODO : Need to have
 		// Resolver Endpoint.
-		resolverClient = new ResolverClient();
+//		resolverClient = new ResolverClient();
 		// Other servers Multicast endpoints
-
+		documentStoreManager = new DocumentStoreManager();
 		counterMap = new HashMap<String, HashMap<String, Integer>>();
 	}
 
