@@ -22,60 +22,48 @@ import data.MessageDecoder;
 @ServerEndpoint(value = "/coordinatorclientupdate/{app}/{channel}/{deviceID}", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class CoordinaterClientUpdateEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
-	CoordinatorServerManager coordinatorManager = new CoordinatorServerManager();
-
+	CoordinatorServerManager coordinatorManager;
 	@OnOpen
 	public void onOpen(Session session, @PathParam("app") final String app,
 			@PathParam("channel") final String channel,
 			@PathParam("deviceID") final String deviceID) {
 
+		coordinatorManager = CoordinatorServerManager.getInstance();
 		logger.info(" Opening connection for Application : " + app
 				+ " Channel :" + channel + "DeviceID : " + deviceID);
 
 		// Set the details of this session.
-		session.getUserProperties().put("app", app);
-		session.getUserProperties().put("channel", channel);
-		session.getUserProperties().put("deviceID", deviceID);
-		String key = Util.getAppSessionDeviceID(app, channel, deviceID);
-		coordinatorManager.addAppSessionToMap(key, session);
-		// Message response = coordinatorManager.performClientOperation(message,
-		// app, channel);
-		// Dummy invocation for now.
-		Message response = coordinatorManager.performClientOperation(app,
-				channel);
-		try {
-			session.getBasicRemote().sendText(
-					Util.MessageToJSONString(response));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (null != deviceID) {
+			session.getUserProperties().put("app", app);
+			session.getUserProperties().put("channel", channel);
+			session.getUserProperties().put("deviceID", deviceID);
+			String key = Util.getAppSessionDeviceID(app, channel, deviceID);
+			coordinatorManager.addAppSessionToMap(key, session);
+			 Message response =
+			 coordinatorManager.performClientOperation(app, channel, deviceID);
+			// Dummy invocation for now.
+			/*Message response = coordinatorManager.performClientOperation(app,
+					channel, deviceID);*/
+			try {
+				logger.info(Util.MessageToJSONString(response));
+				session.getBasicRemote().sendText(
+						Util.MessageToJSONString(response));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		logger.info("Connected ... " + session.getId());
 	}
 
 	@OnMessage
 	public void onMessage(final Session session, Message message) {
-//
-//		System.out.println("Received message in server: ");
-//		// Receive a JSON message and check for the command.
-//		String app = (String) session.getUserProperties().get("app");
-//		String channel = (String) session.getUserProperties().get("channel");
-//		// Message response = coordinatorManager.performClientOperation(message,
-//		// app,
-//		// channel);
-//		System.out.println("Server received Message : " + message);
-//
-//		// TODO : Process the message and send the reply back.
-//		// Find the server which has less load and
-//		// update the coordinator server backup.
-//		// send back the server details.
-//
-//		try {
-//			// session.getBasicRemote().sendObject(response);
-//			session.getBasicRemote().sendText(message.toString());
-//		} catch (IOException e) {
-//			logger.log(Level.WARNING, "onMessage failed", e);
-//		}
+		logger.info("sandeep: printing get type " +message.getType() );
+		if("registration".equals(message.getType())){
+		logger.info(message.getType());
+		logger.info(message.getServerURL());
+		coordinatorManager.registerNewCollabServer(message.getServerURL());
+		}
 	}
 
 	@OnClose

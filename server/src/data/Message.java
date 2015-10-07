@@ -17,6 +17,12 @@ public class Message implements Serializable {
 	private String message;
 
 	public Message() {
+		app="";
+		channel="";
+		type="";
+		serverURL="";
+		priority="-1";
+		message="";
 	}
 
 	public Message(String app, String channel, String type, String serverURL,
