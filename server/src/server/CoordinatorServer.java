@@ -2,10 +2,13 @@ package server;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.glassfish.tyrus.server.Server;
 
 import server.endpoints.CoordinaterClientUpdateEndPoint;
+import server.manager.CoordinatorServerManager;
 
 /**
  * Server to balance the load and assign servers to clients
@@ -21,7 +24,10 @@ public class CoordinatorServer {
 
 	public static void runServer() {
 		// TODO: pass the hostname to the program
-		Server clientUpdateCoordinator = new Server("localhost", 8030,
+		Server clientUpdateCoordinator = null;
+		//initializing CoordinatorServerMnagaer;
+		new CoordinatorServerManager();
+		clientUpdateCoordinator = new Server("ec2-52-89-146-237.us-west-2.compute.amazonaws.com", 8030,
 				"/websockets", CoordinaterClientUpdateEndPoint.class);
 		// Server serverUpdateCoordinator = new Server("localhost", 8031,
 		// "/websockets", CoordinaterServerUpdateEndPoint.class);

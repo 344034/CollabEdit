@@ -26,7 +26,7 @@ public class CollabResolverEndPoint {
 	private CollaborativeManager collabManager = new CollaborativeManager();
 
 	public CollabResolverEndPoint() {
-		String url = "ws://localhost:8025/websockets/resolverserver";
+		String url = "ws://10.0.0.47:8025/websockets/resolverserver";
 		URI endpointURI = null;
 		try {
 			endpointURI = new URI(url);

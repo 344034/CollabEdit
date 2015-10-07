@@ -3,10 +3,8 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 
@@ -26,6 +24,22 @@ public class WebClientEndpoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private static CountDownLatch latch;
 
+	public WebClientEndpoint(String url){
+
+		logger.info("sandeep" +url);
+
+		ClientManager client = ClientManager.createClient();
+		try {
+			client.connectToServer(this, new URI(url));
+
+
+		} catch (DeploymentException | URISyntaxException
+				e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	@OnOpen
 	public void onOpen(Session session) {
 		logger.info("Connected ... " + session.getId());

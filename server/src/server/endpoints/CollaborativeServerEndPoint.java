@@ -12,15 +12,13 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-import org.json.JSONObject;
-
 import server.manager.CollaborativeManager;
 import util.Util;
 import data.Message;
 import data.MessageDecoder;
 import data.MessageEncoder;
 
-@ServerEndpoint(value = "/collabserver/{application}/{channel}", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
+@ServerEndpoint(value = "/collabserver/{application}/{channel}/{deviceID}", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class CollaborativeServerEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private Session appUserSession = null;
@@ -29,11 +27,13 @@ public class CollaborativeServerEndPoint {
 	@OnOpen
 	public void onOpen(Session session,
 			@PathParam("application") String application,
-			@PathParam("channel") final String channel) {
+			@PathParam("channel") final String channel,
+			@PathParam("deviceID") final String deviceID) {
 		System.out.println("----> Connection established : " + application
-				+ "/" + channel);
+				+ "/" + channel+"/"+deviceID);
 		session.getUserProperties().put("app", application);
 		session.getUserProperties().put("channel", channel);
+		session.getUserProperties().put("deviceID", deviceID);
 		this.appUserSession = session;
 		logger.info("Connected ... " + session.getId());
 	}
@@ -59,8 +59,19 @@ public class CollaborativeServerEndPoint {
 		System.out.println("In collab server Received update number : "
 				+ msgWithUpdateNumber);
 		int i = 1;
+		System.out.println("Printing session Size: "
+				+ (session.getOpenSessions().size()));
 		for (Session s : session.getOpenSessions()) {
-			if (s.isOpen()) {
+			System.out.println(i + "UserProperty app : "
+					+ s.getUserProperties().get("app"));
+			System.out.println(i + "UserProperty channel : "
+					+ s.getUserProperties().get("channel"));
+			System.out.println(i + "UserProperty DeviceID : "
+					+ s.getUserProperties().get("deviceID"));
+			if (s.isOpen()
+					&& !s.getUserProperties()
+							.get("deviceID")
+							.equals(session.getUserProperties().get("deviceID"))) {
 				System.out.println(i + "UserProperty app : "
 						+ s.getUserProperties().get("app"));
 				System.out.println(i + "UserProperty channel : "
