@@ -18,6 +18,10 @@ import data.Message;
 import data.MessageDecoder;
 import data.MessageEncoder;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ServerEndpoint(value = "/collabserver/{application}/{channel}/{deviceID}", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class CollaborativeServerEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

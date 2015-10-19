@@ -21,6 +21,10 @@ import org.json.JSONObject;
 
 import data.Message;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ClientEndpoint
 public class TestCoordinatorWebClientEndpoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

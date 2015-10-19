@@ -7,7 +7,7 @@ import data.Message;
 /**
  * Class to have util methods.
  * 
- * @author thirunavukarasu
+ * @author sandeep
  *
  */
 public class Util {
@@ -50,6 +50,7 @@ public class Util {
 		obj.put("serverurl", message.getServerURL());
 		obj.put("priority", message.getPriority());
 		obj.put("message", message.getMessage());
+		obj.put("serverlist", message.getServerList());
 		return obj.toString();
 	}
 }

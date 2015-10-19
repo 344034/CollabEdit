@@ -3,6 +3,10 @@ package model;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Sandeep
+ *
+ */
 public class ServerDetails {
 	private String serverName;
 	Map<String, Map<String, Integer>> appSessionCount;

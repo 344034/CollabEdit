@@ -1,11 +1,13 @@
 package data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Message to communicate across servers and clients.
  * 
- * @author thirunavukarasu
+ * @author sandeep
  *
  */
 public class Message implements Serializable {
@@ -15,6 +17,7 @@ public class Message implements Serializable {
 	private String serverURL;
 	private String priority;
 	private String message;
+	private List<String> serverList;
 
 	public Message() {
 		app="";
@@ -23,6 +26,7 @@ public class Message implements Serializable {
 		serverURL="";
 		priority="-1";
 		message="";
+		serverList = new ArrayList<>();
 	}
 
 	public Message(String app, String channel, String type, String serverURL,
@@ -34,6 +38,15 @@ public class Message implements Serializable {
 		this.serverURL = serverURL;
 		this.priority = priority;
 		this.message = message;
+	}
+
+	public List<String> getServerList() {
+		return serverList;
+	}
+
+	public void setServerList(List<String> serverList) {
+		this.serverList.clear();
+		this.serverList.addAll(serverList);
 	}
 
 	public String getType() {
@@ -85,9 +98,17 @@ public class Message implements Serializable {
 	}
 
 	public String toString() {
-		return "[ Message : App :" + app + ", channel :" + channel + ", type :"
+		StringBuilder sb = new StringBuilder();
+		sb.append("[ Message : App :" + app + ", channel :" + channel + ", type :"
 				+ type + ",serverURL : " + serverURL + ",priority : "
-				+ priority + ",message : " + message + "]";
+				+ priority + ",message : " + message);
+		if(serverList!=null ||serverList.size()>0){
+			sb.append(" ServerList: ");
+			for(String s: serverList)
+				sb.append(s+" ");
+		}
+		sb.append( "]");
+		return sb.toString();
 	}
 
 }

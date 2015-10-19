@@ -20,6 +20,10 @@ import org.glassfish.tyrus.client.ClientManager;
 import util.Util;
 import data.Message;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ClientEndpoint
 public class CollaborativeClient {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

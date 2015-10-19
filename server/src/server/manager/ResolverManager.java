@@ -6,7 +6,7 @@ import data.Message;
 /**
  * Manages the resolving conflicts between the messages from different client.
  * 
- * @author thirunavukarasu
+ * @author sandeep
  *
  */
 public class ResolverManager {

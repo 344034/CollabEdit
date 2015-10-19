@@ -15,6 +15,10 @@ import javax.websocket.server.ServerEndpoint;
 import server.manager.CoordinatorServerManager;
 import data.Message;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ServerEndpoint(value = "/coordinatorserverupdate, encoders = MessageEncoder.class, decoders = MessageDecoder.class)")
 public class CoordinaterServerUpdateEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
