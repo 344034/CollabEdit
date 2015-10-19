@@ -20,7 +20,7 @@ import util.Util;
 /**
  * Server to maintain the global ordering of the updates in the document.
  * 
- * @author dhass
+ * @author sandeep
  *
  */
 public class NewResolverServer extends Thread {

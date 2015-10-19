@@ -19,6 +19,10 @@ import javax.websocket.WebSocketContainer;
 import server.manager.CollaborativeManager;
 import data.Message;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ClientEndpoint
 public class CollabResolverEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

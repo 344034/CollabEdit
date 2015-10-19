@@ -1,58 +1,39 @@
 package server.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.websocket.Session;
-
-import model.ServerDetails;
 import data.Message;
+import model.ServerDetails;
+import server.tcp.CbConstants;
+import server.tcp.CoordinatingClientTCP;
 
 /**
  * Service that manages the coordinator server
  * 
- * @author thirunavukarasu
+ * @author sandeep
  *
  */
 public class CoordinatorServerManager {
-	private Map<String, Session> appDeviceSessionMap;
+	private Map<String, List<String>> sessionServersMap;
 	private Map<String, ServerDetails> serverDetailsMap;
 	private ResolverManager resolverManager;
 	private static CoordinatorServerManager _instance;
 
 	public CoordinatorServerManager() {
-		appDeviceSessionMap = new HashMap<>();
+		sessionServersMap = new HashMap<>();
 		serverDetailsMap = new HashMap<>();
 		resolverManager = new ResolverManager();
 		_instance = this;
 		Logger.getLogger("sandeep").info("constructor of CoordinatorManager called");
 	}
-	public static CoordinatorServerManager getInstance(){
+
+	public static CoordinatorServerManager getInstance() {
 		return _instance;
 	}
-
-	public synchronized void addAppSessionToMap(String sessionKey,
-			Session session) {
-		appDeviceSessionMap.put(sessionKey, session);
-	}
-
-	public synchronized Session getAppSessionToMap(String sessionKey,
-			Session session) {
-		return appDeviceSessionMap.get(sessionKey);
-	}
-
-/*	public Message performClientOperation(String app, String channel,
-			String deviceID) {
-		Message replyMsg = new Message();
-		String url = "10.0.0.47";
-		String collabServerURL = "ws://" + url
-				+ ":8025/websockets/collabserver/" + app + "/" + channel + "/"
-				+ deviceID;
-		replyMsg.setServerURL(collabServerURL);
-		replyMsg.setType("URL");
-		return replyMsg;
-	}*/
 
 	public Message performClientOperation(String app, String channel, String deviceID) {
 		Message replyMsg = new Message();
@@ -60,7 +41,6 @@ public class CoordinatorServerManager {
 		String server = getCollaborativeServer(app, channel, deviceID);
 		replyMsg.setType("URL");
 		replyMsg.setServerURL(server);
-
 		return replyMsg;
 	}
 
@@ -69,7 +49,7 @@ public class CoordinatorServerManager {
 	 * 
 	 * @param app
 	 * @param channel
-	 * @param deviceID 
+	 * @param deviceID
 	 * @return
 	 */
 	public String getCollaborativeServer(String app, String channel, String deviceID) {
@@ -77,20 +57,35 @@ public class CoordinatorServerManager {
 		// the device.
 		String minLoadServer = "localhost";
 		int min = Integer.MIN_VALUE;
-		Logger.getLogger("sandeep").info("**********Just before for loop: "+serverDetailsMap.size());
+		Logger.getLogger("sandeep").info("**********Just before for loop: " + serverDetailsMap.size());
 		for (String server : serverDetailsMap.keySet()) {
-			Logger.getLogger("sandeep").info("**********Entering for loop: "+serverDetailsMap.size());
+			Logger.getLogger("sandeep").info("**********Entering for loop: " + serverDetailsMap.size());
 			int serverLoad = serverDetailsMap.get(server).getServerLoad();
-			Logger.getLogger("SANDEEP").info(server +" " +serverLoad);
+			Logger.getLogger("SANDEEP").info(server + " " + serverLoad);
 			if (min < serverLoad) {
 				minLoadServer = server;
 				min = serverLoad;
 			}
 		}
 		updateLoadOfServers(minLoadServer, app, channel);
-		String outputUrl = minLoadServer +"/websockets/collabserver/" + app + "/" + channel + "/"+deviceID;
+		updateSessionsServers(app, channel, minLoadServer);
+		String outputUrl = minLoadServer + ":8025/websockets/collabserver/" + app + "/" + channel + "/" + deviceID;
 		return outputUrl;
 		// return "localhost";
+	}
+
+	private void updateSessionsServers(String app, String channel, String minLoadServer) {
+		String key = app + "_" + channel;
+		if (sessionServersMap.containsKey(key)) {
+			List<String> serverList = sessionServersMap.get(key);
+			serverList.add(minLoadServer);
+			sessionServersMap.put(key, serverList);
+		} else {
+			List<String> serverList = new ArrayList<>();
+			serverList.add(minLoadServer);
+			sessionServersMap.put(key, serverList);
+		}
+		(new CoordinatingClientTCP(CbConstants.Action.UPDATE_SESSIONS, key)).start();
 	}
 
 	private void updateLoadOfServers(String minLoadServer, String app, String session) {
@@ -98,6 +93,7 @@ public class CoordinatorServerManager {
 		details.addAppSession(app, session);
 		serverDetailsMap.put(minLoadServer, details);
 	}
+
 	/**
 	 * This performs operation like registering new server to the system, keep
 	 * record of the connections open and closed.
@@ -122,8 +118,16 @@ public class CoordinatorServerManager {
 
 	public void registerNewCollabServer(String server) {
 		serverDetailsMap.put(server, new ServerDetails(server));
-	Logger.getLogger("sandeep").info("registered new collab server: size " +server+" " +serverDetailsMap.size());
-	
+		Logger.getLogger("sandeep")
+				.info("registered new collab server: size " + server + " " + serverDetailsMap.size());
+
+	}
+
+	public List<String> getServersforSession(String sessionID) {
+		if(sessionServersMap.containsKey(sessionID))
+			return sessionServersMap.get(sessionID);
+		else
+			return null;
 	}
 
 }

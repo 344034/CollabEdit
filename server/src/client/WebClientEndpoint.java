@@ -19,6 +19,10 @@ import javax.websocket.Session;
 import org.glassfish.tyrus.client.ClientManager;
 
 
+/**
+ * @author Sandeep
+ *
+ */
 @ClientEndpoint
 public class WebClientEndpoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

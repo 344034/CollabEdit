@@ -14,6 +14,10 @@ import data.Message;
 import server.manager.ResolverManager;
 import util.Util;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ServerEndpoint(value = "/resolverserver")
 public class ResolverServerEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

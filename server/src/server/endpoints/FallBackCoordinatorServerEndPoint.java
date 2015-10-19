@@ -11,6 +11,10 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+/**
+ * @author Sandeep
+ *
+ */
 @ServerEndpoint(value = "/collabserver")
 public class FallBackCoordinatorServerEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());

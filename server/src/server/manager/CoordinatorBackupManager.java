@@ -8,6 +8,10 @@ import javax.websocket.Session;
 import model.ServerDetails;
 import data.Message;
 
+/**
+ * @author Sandeep
+ *
+ */
 public class CoordinatorBackupManager {
 
 	private Map<String, Session> appDeviceSessionMap;

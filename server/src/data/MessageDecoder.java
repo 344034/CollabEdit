@@ -1,14 +1,20 @@
 package data;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
 
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 /**
  * Decode the JSON to message Object
  * 
- * @author thirunavukarasu
+ * @author sandeep
  *
  */
 public class MessageDecoder implements Decoder.Text<Message> {
@@ -34,10 +40,17 @@ public class MessageDecoder implements Decoder.Text<Message> {
 			message.setServerURL(obj.getString("serverurl"));
 			message.setPriority(obj.getString("priority"));
 			message.setMessage(obj.getString("message"));
-
+			String json = obj.getString("serverList");
+			if (json != null && json.length() > 0) {
+				Gson gson = new Gson();
+				Type type = new TypeToken<ArrayList<Integer>>() {
+				}.getType();
+				ArrayList<String> inList = gson.fromJson(json, type);
+				message.setServerList(inList);
+			}
 			System.out.println("Decoded msg : " + message);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return message;
 	}

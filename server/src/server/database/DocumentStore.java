@@ -7,7 +7,7 @@ import data.Message;
 /**
  * Database to store the document updates.
  * 
- * @author dhass
+ * @author sandeep
  *
  */
 public class DocumentStore {

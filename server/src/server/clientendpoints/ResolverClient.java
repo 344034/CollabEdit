@@ -12,7 +12,7 @@ import data.Message;
 /**
  * Client which connects to the resolver number to get the
  * 
- * @author thirunavukarasu
+ * @author sandeep
  *
  */
 public class ResolverClient {
